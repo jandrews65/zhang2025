@@ -1,41 +1,38 @@
-# Data Backup Information
+# Data Backup - COMPLETE
 
-**Last Backup:** 2026-02-21 19:10:55
-
-## Backed Up to OneDrive
-
+**Backup Date:** 2026-02-21 19:12:02
+**Backup Size:** 21.51 GB
 **Location:** C:\Users\Jpand\OneDrive\zhang2025-backup-2026-02-21
 
-### Critical Data (Cannot Easily Recreate)
-- **Sentiment Scores:** /app/data/sentiment/ (~10GB)
-  - 303,625 files, 96 hours processing on GTX 1660
-  - Partitioned by year/month
+## What's Backed Up
 
-### Important Data (Hours to Recreate)  
-- **Headlines:** /app/data/headlines/ (~8GB)
-  - 140M+ extracted headlines, 3.5 hours processing
-  
-- **GDELT Data:** /app/data/gdelt/ (~5GB)
-  - Filtered event files, 2 hours to re-download
+✅ **Sentiment Scores** - 10GB (96 hours processing)
+✅ **Headlines** - 8GB (3.5 hours processing)  
+✅ **GDELT Data** - 5GB (2 hours download)
+✅ **Processed Features** - <1GB
 
-### Generated Data (Minutes to Recreate)
-- **Features:** /app/data/processed/ (<1GB)
-  - Can regenerate in 30 minutes from sentiment scores
+**Total Processing Time Saved:** ~100 hours
 
-## Restore Instructions
+## Restore Commands
 
 \\\powershell
-# Full restore
+# Full restore from OneDrive backup
 docker cp "C:\Users\Jpand\OneDrive\zhang2025-backup-2026-02-21\sentiment" zhang2025:/app/data/
 docker cp "C:\Users\Jpand\OneDrive\zhang2025-backup-2026-02-21\headlines" zhang2025:/app/data/
 docker cp "C:\Users\Jpand\OneDrive\zhang2025-backup-2026-02-21\gdelt" zhang2025:/app/data/
 docker cp "C:\Users\Jpand\OneDrive\zhang2025-backup-2026-02-21\processed" zhang2025:/app/data/
 \\\
 
-## Backup Size
-- Sentiment: ~10GB
-- Headlines: ~8GB  
-- GDELT: ~5GB
-- Processed: <1GB
-- **Total: ~24GB**
+## Verification
+
+\\\ash
+docker exec -it zhang2025 bash
+du -sh /app/data/sentiment  # Should show ~10G
+find /app/data/sentiment -name "*.parquet" | wc -l  # Should show ~303,625
+\\\
+
+---
+
+**Backup Status:** ✅ COMPLETE
+**OneDrive Sync:** In progress (check OneDrive icon in system tray)
 
