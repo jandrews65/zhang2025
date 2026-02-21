@@ -1,0 +1,88 @@
+# Zhang (2025) Reproduction - Main Configuration
+
+project:
+  name: "zhang2025-reproduction"
+  seed: 42
+
+paths:
+  data_dir: "data"
+  artifacts_dir: "artifacts"
+  reports_dir: "reports"
+  logs_dir: "logs"
+
+gdelt:
+  base_url: "http://data.gdeltproject.org/gdeltv2"
+  # Date range matching the paper
+  start_date: "2015-02-18"
+  end_date: "2023-12-31"
+  # Stream processing settings
+  batch_size: 100
+  max_retries: 3
+  retry_backoff: 2.0
+  # Storage
+  partition_by: ["year", "month"]
+  output_format: "parquet"
+  compression: "snappy"
+
+headlines:
+  # Filtering criteria
+  source_countries: ["US"]
+  languages: ["English"]
+  # Cache settings
+  cache_enabled: true
+  max_retries: 5
+  retry_backoff_base: 2.0
+
+sentiment:
+  model_name: "ProsusAI/finbert"
+  batch_size: 16  # GTX 1660 (6GB VRAM)
+  max_length: 128
+  device: "auto"  # auto-detect GPU/CPU
+
+market_data:
+  ticker: "SPY"
+  start_date: "2015-02-18"
+  end_date: "2023-12-31"
+  source: "yfinance"
+
+features:
+  # Sentiment aggregation windows (days)
+  rolling_windows: [1, 5, 10, 21, 63]
+  # Alignment: features from day t predict return from t to t+1
+  prediction_horizon: 1
+  # Lagged sentiment features
+  sentiment_lag_days: [1, 2, 3, 5]
+  sentiment_lag_columns: [mean_sentiment, positive_ratio, negative_ratio, mean_avg_tone]
+  # Acceleration (first-difference of moving averages)
+  acceleration_windows: [5, 21]
+  # Market volatility windows
+  market_vol_windows: [5, 21, 63]
+  # Versioned output with metadata sidecar
+  versioned_output: true
+
+walk_forward:
+  # Date-based expanding window folds
+  initial_train_end: "2019-12-31"
+  test_fold_ends: ["2020-12-31", "2021-12-31", "2022-12-31", "2023-12-31"]
+  expanding: true
+  task_type: "classification"
+  classification_threshold: 0.0
+
+backtest:
+  initial_capital: 1_000_000
+  transaction_cost_bps: 3  # 3 basis points per trade
+  slippage_bps: 2
+  rebalance_frequency: "daily"
+  probability_threshold: 0.5  # Long if P(up) > threshold, short otherwise
+  risk_free_rate: 0.0  # Annual risk-free rate for Sharpe calculation
+
+oos_extension:
+  # Out-of-sample period beyond the paper's training window
+  start_date: "2024-01-01"
+  end_date: "2025-12-31"
+  # Model freeze: use last fold's model/scaler, no retraining allowed
+  model_freeze_date: "2025-04-30"
+  # Which model to use for OOS prediction
+  model_name: "xgboost"
+  # Minimum days required for meaningful OOS evaluation
+  min_oos_days: 20

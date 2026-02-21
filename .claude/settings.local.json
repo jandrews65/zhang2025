@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:data.gdeltproject.org)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:chengjun.github.io)",
+      "WebFetch(domain:arpieb.com)",
+      "Bash(docker compose build:*)",
+      "Bash(docker run:*)",
+      "Bash(docker compose run:*)",
+      "Bash(docker compose:*)"
+    ]
+  }
+}

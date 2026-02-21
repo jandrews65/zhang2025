@@ -1,0 +1,39 @@
+# Zhang (2025) Reproduction - Hyperparameters
+
+# XGBoost hyperparameters (from paper Table 3 / Section 4)
+xgboost:
+  objective: "binary:logistic"
+  n_estimators: 500
+  max_depth: 4
+  learning_rate: 0.05
+  subsample: 0.8
+  colsample_bytree: 0.8
+  min_child_weight: 5
+  gamma: 0.1
+  reg_alpha: 0.1
+  reg_lambda: 1.0
+  early_stopping_rounds: 50
+  eval_metric: "logloss"
+  tree_method: "hist"
+  device: "cuda"
+  random_state: 42
+  val_fraction: 0.2
+
+# Baseline models
+baseline:
+  historical_mean:
+    window: null  # Use full expanding window
+  linear:
+    fit_intercept: true
+    normalize: false
+  logistic_regression:
+    C: 1.0
+    penalty: "l2"
+    class_weight: "balanced"
+    solver: "lbfgs"
+    max_iter: 1000
+
+# SHAP interpretation
+shap:
+  max_display: 20
+  check_additivity: false

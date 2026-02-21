@@ -1,0 +1,46 @@
+services:
+  zhang2025:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: zhang2025-reproduction:latest
+    container_name: zhang2025
+    volumes:
+      - ./data:/app/data
+      - ./artifacts:/app/artifacts
+      - ./reports:/app/reports
+      - ./logs:/app/logs
+      - ./config:/app/config
+    environment:
+      - PYTHONPATH=/app
+      - CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES:-0}
+    working_dir: /app
+    command: tail -f /dev/null
+    # GPU support (optional, comment out if no GPU)
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+  zhang2025-cpu:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: zhang2025-reproduction:latest
+    container_name: zhang2025-cpu
+    volumes:
+      - ./data:/app/data
+      - ./artifacts:/app/artifacts
+      - ./reports:/app/reports
+      - ./logs:/app/logs
+      - ./config:/app/config
+    environment:
+      - PYTHONPATH=/app
+      - CUDA_VISIBLE_DEVICES=""
+    working_dir: /app
+    command: tail -f /dev/null
+    profiles:
+      - cpu
