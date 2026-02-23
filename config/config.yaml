@@ -40,7 +40,7 @@ sentiment:
   device: "auto"  # auto-detect GPU/CPU
 
 market_data:
-  ticker: "SPY"
+  ticker: "EURUSD=X"
   start_date: "2015-02-18"
   end_date: "2023-12-31"
   source: "yfinance"
