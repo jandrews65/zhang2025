@@ -113,7 +113,7 @@ zhang2025-reproduction/
 
 ## License
 
-MIT License (code only). Paper content © Zhang (2025).
+MIT License (code only). Paper content © JP Andrews (2026).
 
 ## Acknowledgments
 
