@@ -28,21 +28,11 @@ This repository contains a complete, containerized reproduction framework for Zh
 
 ### Installation
 
-\\\powershell
-# Clone repository
-git clone https://github.com/jandrews65/zhang2025.git
-cd zhang2025
-
-# Build Docker image
-docker-compose build
-
-# Start container
-docker-compose up -d zhang2025
-\\\
+see reproduction.md
 
 ### Run Full Pipeline
 
-\\\ash
+\\\bash
 # Enter container
 docker exec -it zhang2025 bash
 
@@ -113,7 +103,7 @@ zhang2025-reproduction/
 
 ## License
 
-MIT License (code only). Paper content © Zhang (2025).
+MIT License (code only). Paper content © JP Andrews (2026).
 
 ## Acknowledgments
 
