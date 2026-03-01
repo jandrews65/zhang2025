@@ -1,0 +1,87 @@
+backtest:
+  initial_capital: 1000000
+  probability_threshold: 0.5
+  rebalance_frequency: daily
+  risk_free_rate: 0.0
+  slippage_bps: 2
+  transaction_cost_bps: 3
+features:
+  acceleration_windows:
+  - 5
+  - 21
+  market_vol_windows:
+  - 5
+  - 21
+  - 63
+  prediction_horizon: 1
+  rolling_windows:
+  - 1
+  - 5
+  - 10
+  - 21
+  - 63
+  sentiment_lag_columns:
+  - mean_sentiment
+  - positive_ratio
+  - negative_ratio
+  - mean_avg_tone
+  sentiment_lag_days:
+  - 1
+  - 2
+  - 3
+  - 5
+  versioned_output: true
+gdelt:
+  base_url: http://data.gdeltproject.org/gdeltv2
+  batch_size: 100
+  compression: snappy
+  end_date: '2026-02-28'
+  max_retries: 3
+  output_format: parquet
+  partition_by:
+  - year
+  - month
+  retry_backoff: 2.0
+  start_date: '2026-02-21'
+headlines:
+  cache_enabled: true
+  languages:
+  - English
+  max_retries: 5
+  retry_backoff_base: 2.0
+  source_countries:
+  - US
+market_data:
+  end_date: '2023-12-31'
+  source: yfinance
+  start_date: '2015-02-18'
+  ticker: EURUSD=X
+oos_extension:
+  end_date: '2025-12-31'
+  min_oos_days: 20
+  model_freeze_date: '2025-04-30'
+  model_name: xgboost
+  start_date: '2024-01-01'
+paths:
+  artifacts_dir: artifacts
+  data_dir: data
+  logs_dir: logs
+  reports_dir: reports
+project:
+  name: zhang2025-reproduction
+  seed: 42
+sentiment:
+  batch_size: 16
+  device: auto
+  max_length: 128
+  model_name: ProsusAI/finbert
+walk_forward:
+  classification_threshold: 0.0
+  expanding: true
+  initial_train_end: '2019-12-31'
+  task_type: classification
+  test_fold_ends:
+  - '2020-12-31'
+  - '2021-12-31'
+  - '2022-12-31'
+  - '2023-12-31'
